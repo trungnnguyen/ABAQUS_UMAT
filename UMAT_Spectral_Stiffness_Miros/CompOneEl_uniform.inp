@@ -1,0 +1,81 @@
+*heading
+ 1 elemento
+*NODE
+ 1, 0. , 0., 0.
+ 2, 1. , 0., 0.
+ 3, 1. , 1., 0.
+ 4, 0.,  1., 0.
+ 5, 0. , 0., 1.
+ 6, 1. , 0., 1.
+ 7, 1. , 1., 1.
+ 8, 0.,  1., 1.
+*nset, nset=front
+2, 3, 6, 7
+*nset, nset= back
+1, 4, 5, 8
+*nset,nset = right
+4, 8
+*nset, nset= left, unsorted
+1, 5
+*nset, nset= top
+5
+*nset, nset=bottom
+1
+*NODE,NSET=MASTERX
+101, 1., 0., 0.
+102, 0., 1., 0.
+103, 0., 0., 1.
+**
+*ELEMENT, TYPE=C3D8,ELSET=cristal1
+ 1, 6, 2, 1, 5, 7, 3, 4, 8
+*SOLID SECTION,ELSET=cristal1,MATERIAL=U1
+1.
+*MATERIAL,NAME=U1
+*USER MATERIAL,TYPE=mechanical,constants=1
+1.
+**   PARAMETER(NPHMX =1)     ! MAXIMUM # OF PHASES OVER ALL ELEMENTS
+**   PARAMETER(NGRMX =1)  ! MAXIMUM # OF GRAINS OVER ALL PHASES & ELEMS
+**   PARAMETER(NMODMX=4)     ! MAXIMUM # OF ACTIVE SL+TW MODES IN ANY PHASE
+**   PARAMETER(NTWMMX=2)     ! MAXIMUM # OF ACTIVE TWIN  MODES IN ANY PHASE
+**   PARAMETER(NSYSMX=27)    ! MAXIMUM # OF ACTIVE SL+TW SYSTEMS IN ANY PHASE
+**   PARAMETER(NTWSMX=12)    ! MAXIMUM # OF ACTIVE TWIN  SYSTEMS IN ANY PHASE
+**   statev (81 + (24+2*NTWMMX)*NPHMX + (48+NSYSMX+NTWSMX)*NGRMX)+5
+*DEPVAR
+1
+**
+*EQUATION
+3
+front,1,1.,back,1,-1., 101, 1, -1
+3
+front,2,1.,back,2,-1., 101, 2, -1
+3
+front,3,1.,back,3,-1., 101, 3, -1
+3
+right,1,1.,left,1,-1., 102, 1, -1
+3
+right,2,1.,left,2,-1., 102, 2, -1
+3
+right,3,1.,left,3,-1., 102, 3, -1
+3
+top,1,1.,bottom,1,-1., 103, 1, -1
+3
+top,2,1.,bottom,2,-1., 103, 2, -1
+3
+top,3,1.,bottom,3,-1., 103, 3, -1
+*BOUNDARY
+101,3,3,0.
+102,1,1,0.
+102,3,3,0.
+1,1,3,0.
+*STEP,INC=1000,NLGEOM
+*STATIC
+0.1, 1., 1e-08, 0.1
+*BOUNDARY
+102,2,2,-0.1
+*OUTPUT,FIELD,VARIABLE=PRESELECT
+*ELEMENT OUTPUT,ELSET=cristal1
+SDV1
+*END STEP
+
+
+
